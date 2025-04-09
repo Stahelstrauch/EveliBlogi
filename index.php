@@ -1,6 +1,10 @@
 <?php
+include("include/settings.php"); // Lae seaded
+include("include/mysqli.php"); // Lae andmebaasi klass
+$db= new Db(); // Loo andmebaasi objekt
+
 $page = isset($_GET['page']) ? $_GET['page'] : 'homepage';
-$allowed_pages = ['homepage', 'menu', 'blogi', 'kontakt', 'post1', 'post2', 'post3', 'post4', 'post5'];
+$allowed_pages = ['homepage', 'menu', 'blogi', 'kontakt', 'post', 'post_add'];
 if(!in_array($page, $allowed_pages)){
     $page = 'homepage';
 }
@@ -13,7 +17,8 @@ $headlines = [
     'post2' => 'Hosta "Blue Ivory"',
     'post3' => 'Astilbe "Look at me"',
     'post4' => 'Tähiklavendel "Munstead"',
-    'post5' => 'Aedhortensia "Polar Bear"'
+    'post5' => 'Aedhortensia "Polar Bear"',
+    'post_add' => "Lisa"
 ];
 
 $headline = isset($headlines[$page]) ? $headlines[$page] : 'Eveli Blogi';
@@ -28,6 +33,7 @@ $subtexts = [
     'post2' => '14.01.2025',
     'post3' => '24.02.2025',
     'post4' => '14.03.2025',
+    'post_add' => ' ',
     'post5' => '27.03.2025'
 ];
 
@@ -53,7 +59,7 @@ $subtext = isset($subtexts[$page]) ? $subtexts[$page] : $subtexts['homepage'];
     </div>
 
     <div class="container">
-        <?php include "$page.html"; ?>
+        <?php include "$page.php"; ?>
     </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>   
