@@ -75,5 +75,25 @@ class Db {
         echo "</pre>";
     }
 
+    # Input texti jaoks kirjete küsimine andmebaasist
+    /**
+     * Tagastab valmis HTML value atribuudi, näiteks: value="Andres"
+     * @param string $name - massiivi võti (vormi välja nimi) heading või context
+     * @param array $source - Massiiv kust väärtus võtta
+     * @return string - valmis value="..." või tühi string
+    */
+    function htmlValue(string $name, array $source): string {
+        if(isset($source[$name])) {
+            return 'value="' . htmlspecialchars($source[$name], ENT_QUOTES) . '"';
+        }
+        return '';
+    }
+
+    function htmlTextContent(string $name, array $source): string {
+        return isset($source[$name]) ? htmlspecialchars($source[$name], ENT_QUOTES) : "";
+
+    }
+
+
 
 } // class Db lõpp

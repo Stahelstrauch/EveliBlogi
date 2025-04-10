@@ -13,12 +13,14 @@ if($data !== false) { //Leiti andmeid
     <!--SIIA HTML osa -->
     <div class="col-sm-4">
       <h2 class="text-center orange-heading"><?php echo $val['heading']; ?></h2>
-      <p><?php echo $val['estonia']; ?></p>
+      <p class="text-center"><?php echo $val['estonia']; ?></p>
       <p><img src="<?php echo $val['photo']; ?>" class="img-fluid" alt="Pilt"></p>
       <p><?php echo $val['preamble']; ?></p>
 
 
-      <p><?php 
+      <p>
+      <span class="fw-bold">Kategooriad:</span>
+        <?php 
       $tags = array_map('trim', explode(",", $val['tags'])); // Tükelda sildid komast 
       // $db->show($tags); //TEST
       $links = []; // Tühi linkide list

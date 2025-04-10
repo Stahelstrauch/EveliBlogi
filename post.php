@@ -7,6 +7,12 @@ if(isset($_GET['sid']) && is_numeric($_GET['sid'])) {
     if($data !== false) {
        $val = $data[0]; 
 
+       $sql_prev = "SELECT id from blog where added > '". $val['added'] . "' ORDER BY added asc LIMIT 1";
+       $prev = $db->dbGetArray($sql_prev);
+       $sql_next = "SELECT id FROM blog WHERE added < '". $val['added'] . "' ORDER BY added desc LIMIT 1";
+       $next = $db->dbGetArray($sql_next);
+       // echo $prev[0]['id']." ".$next[0]['id'];
+
 
 ?>
             <h2><?= $val['heading']; ?></h2>
@@ -17,32 +23,42 @@ if(isset($_GET['sid']) && is_numeric($_GET['sid'])) {
                         <div class="col-md-3">
                             <img src="<?php echo $val['photo']; ?>" class="img-fluid" alt="Hel1">
                         </div>
-                        </div>
-                        </div>
-                    </div>
-                <p><?php 
-                    $tags = array_map('trim', explode(",", $val['tags'])); // Tükelda sildid komast 
-                    // $db->show($tags); //TEST
-                    $links = []; // Tühi linkide list
-                    foreach($tags as $tag) {
-                        $safeTag = htmlspecialchars($tag); //Turvaline html
-                        $links[] = "<a href=''>{$safeTag}</a>";
-                    }
-                    $result = implode(",", $links); // Ühenda listi elemendid komaga
-                    echo $result; // väljasta tulemus
-                    // $db->show($links); //Test
-                    ?>
-
-                </p>
+                        <p><?php 
+                            $tags = array_map('trim', explode(",", $val['tags'])); // Tükelda sildid komast 
+                            // $db->show($tags); //TEST
+                            $links = []; // Tühi linkide list
+                            foreach($tags as $tag) {
+                                $safeTag = htmlspecialchars($tag); //Turvaline html
+                                $links[] = "<a href=''>{$safeTag}</a>";
+                            }
+                            $result = implode(",", $links); // Ühenda listi elemendid komaga
+                            echo $result; // väljasta tulemus
+                            // $db->show($links); //Test
+                            ?>
+                        </p>
                 <p>
-        <div class="container-fluid bg-success p-3 text-white">
+        <div class="container bg-success p-3 text-white">
             <div class="row">
-                <div class="col-md-6">
-                        <a class="nav-link disabled text-start fw-bold">Eelmine postitus</a>
-                    </div>
+                <?php
+                // EElmine nupp
+                if($prev !== false){
+                    ?>
                     <div class="col-md-6">
-                         <a class="nav-link text-end fw-bold" href="?page=post2">Järgmine postitus</a>
+                        <a class="nav-link text-center fw-bold" href="?page=post&sid=<?=$prev[0]['id']; ?>">Eelmine postitus</a>
                     </div>
+                    <?php
+                }
+                // Järgmine postitus
+                if($next !== false){
+                    ?>
+                    <div class="col-md-6">
+                         <a class="nav-link text-center fw-bold" href="?page=post&sid=<?=$next[0]['id']; ?>">Järgmine postitus</a>
+                    </div>
+                    <?php
+                }
+                ?>
+                
+                    
                 </div>
             </div>
 <?php
